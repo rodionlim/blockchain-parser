@@ -3,8 +3,10 @@
 ## Pre-requisites
 Code was tested on macos, but should be compatible with linux distributions as well. A dockerfile is provided as a convenience to ensure compatibility across all operating systems.
 
-- go v1.22.2
-- docker v26.1.1 (Optional)
+- go v1.22.2 (Optional if installed via docker)
+- macos (application tested on macos, but should be compatible on both linux and windows as well)
+- docker engine v26.1.4
+- docker desktop v4.30.0
 
 ## Quickstart
 To run the base examples (make a single subscription and get notified whenever new transactions occur)
@@ -39,7 +41,8 @@ go build -o ./build/main ./cmd/main.go
     └── README.md
 
 ## Tests
-- External libraries were used for creating mocks
+- A single external library is used for creating mocks
+- No external libraries were used for the actual application logic
 - Tests are only implemented for subscriber and storage package since it encapsulates most of the business logic required for notification service obtaining the right transactions, it should eventually be extended to the rest of the packages
 
 To run tests
@@ -47,7 +50,7 @@ To run tests
 go test ./...
 ```
 
-## Notes
+## Notes / Assumptions
 - Subscriber needs to be started to begin indexing transactions for observers
 - Clean up has not been implemented, in ideal world, we will have a channel to receive signals for stopping the subscriber service
 - JSON RPC REST calls are used to retrieve all new transactions in the universe. In the ideal world, it is better to have a websockets subscription to the Ethereum client to reduce the total number of network calls required
