@@ -1,6 +1,7 @@
 package parser
 
 import (
+	"context"
 	"log"
 	"time"
 	"trustwallet/internal/storage"
@@ -19,8 +20,14 @@ func NewMemoryParser(url string) *MemoryParser {
 	return &MemoryParser{subscriber: subscriber.NewSubscriber(memoryStorage, client)}
 }
 
-func (p *MemoryParser) Start() {
-	go p.subscriber.Start()
+func (p *MemoryParser) Start(ctx context.Context) {
+	log.Println("Starting Parser service and all dependent services")
+	go p.subscriber.Start(ctx)
+}
+
+func (p *MemoryParser) Stop(cancel context.CancelFunc) {
+	log.Println("Stopping Parser service. Performing clean up actions")
+	cancel()
 }
 
 func (p *MemoryParser) GetCurrentBlock() uint64 {

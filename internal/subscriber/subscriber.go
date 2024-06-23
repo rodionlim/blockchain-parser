@@ -1,6 +1,7 @@
 package subscriber
 
 import (
+	"context"
 	"log"
 	"strings"
 	"sync"
@@ -28,26 +29,32 @@ func NewSubscriber(storage storage.Storage, client ethereum.Client) *Subscriber 
 	return &Subscriber{storage: storage, client: client, lastParsedBlock: bn, pollingDurationInSeconds: 15}
 }
 
-func (s *Subscriber) Start() {
+func (s *Subscriber) Start(ctx context.Context) {
 	for {
-		s.mu.Lock()
-		results, err := s.client.GetTransactionsBySubscriptionsAndBlock(s.storage.GetAllSubscriptions(), s.lastParsedBlock)
-		if err != nil {
-			panic("Something went wrong while trying to retrieve transactions from a block")
+		select {
+		case <-ctx.Done():
+			log.Println("Stopping subscriptions")
+			return
+		default:
+			s.mu.Lock()
+			results, err := s.client.GetTransactionsBySubscriptionsAndBlock(s.storage.GetAllSubscriptions(), s.lastParsedBlock)
+			if err != nil {
+				panic("Something went wrong while trying to retrieve transactions from a block")
+			}
+			s.storage.WriteTransactions(results)
+			s.lastParsedBlock++
+			s.mu.Unlock()
+			bn, err := s.client.GetBlockNumber()
+			if err != nil {
+				panic("Unable to fetch latest block number")
+			}
+			if bn > s.lastParsedBlock {
+				// skip the sleep if we are behind by too much
+				log.Println("Latest block is ahead by > 1 polling interval, polling for the next block immediately")
+				continue
+			}
+			time.Sleep(time.Duration(time.Second) * time.Duration(s.pollingDurationInSeconds))
 		}
-		s.storage.WriteTransactions(results)
-		s.lastParsedBlock++
-		s.mu.Unlock()
-		bn, err := s.client.GetBlockNumber()
-		if err != nil {
-			panic("Unable to fetch latest block number")
-		}
-		if bn > s.lastParsedBlock {
-			// skip the sleep if we are behind by too much
-			log.Println("Latest block is ahead by > 1 polling interval, polling for the next block immediately")
-			continue
-		}
-		time.Sleep(time.Duration(time.Second) * time.Duration(s.pollingDurationInSeconds))
 	}
 }
 
