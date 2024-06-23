@@ -12,6 +12,7 @@ import (
 
 type MemoryParser struct {
 	subscriber *subscriber.Subscriber
+	cancel     context.CancelFunc
 }
 
 func NewMemoryParser(url string) *MemoryParser {
@@ -20,14 +21,15 @@ func NewMemoryParser(url string) *MemoryParser {
 	return &MemoryParser{subscriber: subscriber.NewSubscriber(memoryStorage, client)}
 }
 
-func (p *MemoryParser) Start(ctx context.Context) {
+func (p *MemoryParser) Start(ctx context.Context, cancel context.CancelFunc) {
 	log.Println("Starting Parser service and all dependent services")
+	p.cancel = cancel
 	go p.subscriber.Start(ctx)
 }
 
-func (p *MemoryParser) Stop(cancel context.CancelFunc) {
+func (p *MemoryParser) Stop() {
 	log.Println("Stopping Parser service. Performing clean up actions")
-	cancel()
+	p.cancel()
 }
 
 func (p *MemoryParser) GetCurrentBlock() uint64 {

@@ -23,7 +23,7 @@ func NewSubscriber(storage storage.Storage, client ethereum.Client) *Subscriber 
 	var bn uint64
 	var err error
 	if bn, err = client.GetBlockNumber(); err != nil {
-		panic("Unable to connect to blockchain client")
+		log.Panicln("Unable to connect to blockchain client")
 	}
 	log.Printf("New Subscriber created with last parsed block [%d]\n", bn)
 	return &Subscriber{storage: storage, client: client, lastParsedBlock: bn, pollingDurationInSeconds: 15}
@@ -39,14 +39,14 @@ func (s *Subscriber) Start(ctx context.Context) {
 			s.mu.Lock()
 			results, err := s.client.GetTransactionsBySubscriptionsAndBlock(s.storage.GetAllSubscriptions(), s.lastParsedBlock)
 			if err != nil {
-				panic("Something went wrong while trying to retrieve transactions from a block")
+				log.Panicf("Something went wrong while trying to retrieve transactions from a block, err %v\n", err)
 			}
 			s.storage.WriteTransactions(results)
 			s.lastParsedBlock++
 			s.mu.Unlock()
 			bn, err := s.client.GetBlockNumber()
 			if err != nil {
-				panic("Unable to fetch latest block number")
+				log.Panicln("Unable to fetch latest block number")
 			}
 			if bn > s.lastParsedBlock {
 				// skip the sleep if we are behind by too much
