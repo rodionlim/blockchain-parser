@@ -21,7 +21,7 @@ func main() {
 }
 
 func block(blockingPeriod time.Duration) {
-	log.Printf("Running this application fo Period [%v]", blockingPeriod.String())
+	log.Printf("Running this application for Period [%v]", blockingPeriod.String())
 	startTime := time.Now()
 	for {
 		duration := time.Since(startTime)
