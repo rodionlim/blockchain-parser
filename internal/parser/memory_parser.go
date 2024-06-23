@@ -3,11 +3,11 @@ package parser
 import (
 	"context"
 	"log"
+	"parser/internal/storage"
+	"parser/internal/subscriber"
+	"parser/pkg/ethereum"
+	"parser/pkg/types"
 	"time"
-	"trustwallet/internal/storage"
-	"trustwallet/internal/subscriber"
-	"trustwallet/pkg/ethereum"
-	"trustwallet/pkg/types"
 )
 
 type MemoryParser struct {

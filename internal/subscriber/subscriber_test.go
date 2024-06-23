@@ -1,10 +1,10 @@
 package subscriber
 
 import (
+	"parser/internal/mocks"
+	"parser/pkg/types"
 	"strings"
 	"testing"
-	"trustwallet/internal/mocks"
-	"trustwallet/pkg/types"
 
 	"github.com/stretchr/testify/assert"
 )

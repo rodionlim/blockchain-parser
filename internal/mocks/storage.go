@@ -1,7 +1,7 @@
 package mocks
 
 import (
-	"trustwallet/pkg/types"
+	"parser/pkg/types"
 
 	"github.com/stretchr/testify/mock"
 )

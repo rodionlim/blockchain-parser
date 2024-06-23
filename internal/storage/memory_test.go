@@ -1,9 +1,9 @@
 package storage
 
 import (
+	"parser/pkg/types"
 	"strings"
 	"testing"
-	"trustwallet/pkg/types"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"

@@ -1,7 +1,7 @@
 package ethereum
 
 import (
-	"trustwallet/pkg/types"
+	"parser/pkg/types"
 )
 
 type Client interface {

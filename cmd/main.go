@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"log"
+	"parser/internal/parser"
 	"time"
-	"trustwallet/internal/parser"
 )
 
 func main() {

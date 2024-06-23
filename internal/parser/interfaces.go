@@ -2,7 +2,7 @@ package parser
 
 import (
 	"context"
-	"trustwallet/pkg/types"
+	"parser/pkg/types"
 )
 
 type Parser interface {

@@ -19,8 +19,8 @@ go run ./cmd/main.go
 
 Alternatively, to run the application with docker
 ```sh
-docker build . -t trustwallet
-docker run --rm trustwallet
+docker build . -t parser
+docker run --rm parser
 ```
 
 Entrypoint of the code is in `./cmd/main.go` file. User can easily modify the subscription parameters in the main function. The main function should give a good idea of how the notification service can utilize the parser interface. 

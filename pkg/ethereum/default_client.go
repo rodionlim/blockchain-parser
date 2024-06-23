@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"trustwallet/pkg/types"
+	"parser/pkg/types"
 )
 
 type DefaultClient struct {

@@ -5,9 +5,9 @@ package storage
 import (
 	"fmt"
 	"log"
+	"parser/pkg/types"
 	"strings"
 	"sync"
-	"trustwallet/pkg/types"
 )
 
 type MemoryStorage struct {

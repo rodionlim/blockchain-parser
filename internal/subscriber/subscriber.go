@@ -3,12 +3,12 @@ package subscriber
 import (
 	"context"
 	"log"
+	"parser/internal/storage"
+	"parser/pkg/ethereum"
+	"parser/pkg/types"
 	"strings"
 	"sync"
 	"time"
-	"trustwallet/internal/storage"
-	"trustwallet/pkg/ethereum"
-	"trustwallet/pkg/types"
 )
 
 type Subscriber struct {

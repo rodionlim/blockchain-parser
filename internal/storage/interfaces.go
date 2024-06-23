@@ -1,6 +1,6 @@
 package storage
 
-import "trustwallet/pkg/types"
+import "parser/pkg/types"
 
 type Storage interface {
 	AddressExists(address string) bool                            // check if an address is being watched
